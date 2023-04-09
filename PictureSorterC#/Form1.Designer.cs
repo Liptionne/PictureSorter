@@ -47,6 +47,7 @@
             LabelPathToFolder = new Label();
             LabelFolderName = new Label();
             panel2 = new Panel();
+            label1 = new Label();
             dataGridView1 = new DataGridView();
             menuStrip1.SuspendLayout();
             panel1.SuspendLayout();
@@ -112,6 +113,7 @@
             ButtonStartImport.TabIndex = 25;
             ButtonStartImport.Text = "IMPORTER";
             ButtonStartImport.UseVisualStyleBackColor = true;
+            ButtonStartImport.Click += ButtonStartImport_Click;
             // 
             // CheckBoxSeparateFolders
             // 
@@ -131,14 +133,16 @@
             ButtonChooseAdditionnalFolder.TabIndex = 23;
             ButtonChooseAdditionnalFolder.Text = "Choisir dossier supplémentaire";
             ButtonChooseAdditionnalFolder.UseVisualStyleBackColor = true;
+            ButtonChooseAdditionnalFolder.Click += ButtonChooseAdditionnalFolder_Click;
             // 
             // LabelAdditionnalFolderPath
             // 
             LabelAdditionnalFolderPath.AutoSize = true;
-            LabelAdditionnalFolderPath.Location = new Point(265, 212);
+            LabelAdditionnalFolderPath.Location = new Point(255, 212);
             LabelAdditionnalFolderPath.Name = "LabelAdditionnalFolderPath";
-            LabelAdditionnalFolderPath.Size = new Size(0, 20);
+            LabelAdditionnalFolderPath.Size = new Size(70, 20);
             LabelAdditionnalFolderPath.TabIndex = 22;
+            LabelAdditionnalFolderPath.Text = "yoooooo";
             // 
             // LabelAdditionalFolder
             // 
@@ -157,14 +161,16 @@
             ButtonChooseTargetFolder.TabIndex = 20;
             ButtonChooseTargetFolder.Text = "Choisir le dossier où déplacer";
             ButtonChooseTargetFolder.UseVisualStyleBackColor = true;
+            ButtonChooseTargetFolder.Click += ButtonChooseTargetFolder_Click;
             // 
             // LabelPathToTargetFolder
             // 
             LabelPathToTargetFolder.AutoSize = true;
-            LabelPathToTargetFolder.Location = new Point(166, 130);
+            LabelPathToTargetFolder.Location = new Point(156, 130);
             LabelPathToTargetFolder.Name = "LabelPathToTargetFolder";
-            LabelPathToTargetFolder.Size = new Size(0, 20);
+            LabelPathToTargetFolder.Size = new Size(57, 20);
             LabelPathToTargetFolder.TabIndex = 19;
+            LabelPathToTargetFolder.Text = "coucou";
             // 
             // LabelTargetFolder
             // 
@@ -184,6 +190,7 @@
             ComboBoxChoixModeDeplacement.Name = "ComboBoxChoixModeDeplacement";
             ComboBoxChoixModeDeplacement.Size = new Size(151, 28);
             ComboBoxChoixModeDeplacement.TabIndex = 17;
+            ComboBoxChoixModeDeplacement.SelectedIndexChanged += ComboBoxChoixModeDeplacement_SelectedIndexChanged;
             // 
             // LabelChoixModeDeplacement
             // 
@@ -202,14 +209,16 @@
             ButtonChooseFolder.TabIndex = 15;
             ButtonChooseFolder.Text = "Choisir mon dossier";
             ButtonChooseFolder.UseVisualStyleBackColor = true;
+            ButtonChooseFolder.Click += ButtonChooseFolder_Click;
             // 
             // LabelPathToFolder
             // 
             LabelPathToFolder.AutoSize = true;
-            LabelPathToFolder.Location = new Point(151, 24);
+            LabelPathToFolder.Location = new Point(129, 14);
             LabelPathToFolder.Name = "LabelPathToFolder";
-            LabelPathToFolder.Size = new Size(0, 20);
+            LabelPathToFolder.Size = new Size(28, 20);
             LabelPathToFolder.TabIndex = 14;
+            LabelPathToFolder.Text = "jch";
             // 
             // LabelFolderName
             // 
@@ -222,18 +231,29 @@
             // 
             // panel2
             // 
+            panel2.Controls.Add(label1);
             panel2.Controls.Add(dataGridView1);
             panel2.Location = new Point(352, 31);
             panel2.Name = "panel2";
             panel2.Size = new Size(963, 698);
             panel2.TabIndex = 2;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(398, 349);
+            label1.Name = "label1";
+            label1.Size = new Size(243, 20);
+            label1.TabIndex = 1;
+            label1.Text = "Importez une image pour démarrer";
+            // 
             // dataGridView1
             // 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = SystemColors.ActiveBorder;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(20, 14);
+            dataGridView1.Enabled = false;
+            dataGridView1.Location = new Point(20, 24);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
@@ -256,6 +276,7 @@
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -283,5 +304,6 @@
         private Button ButtonStartImport;
         private Panel panel2;
         private DataGridView dataGridView1;
+        private Label label1;
     }
 }
