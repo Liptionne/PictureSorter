@@ -1,3 +1,4 @@
+using System.Net;
 using System.Windows.Forms;
 
 namespace PictureSorterC_
@@ -48,41 +49,144 @@ namespace PictureSorterC_
 
             DirectoryInfo sourceDir = new DirectoryInfo(SDFolder);
             FileInfo[] files = sourceDir.GetFiles();
-            if (ComboBoxChoixModeDeplacement.SelectedItem.ToString() == "Déplacer")
+
+            string cr2Folder = Path.Combine(WorkingFolder, "CR2");
+            string jpgFolder = Path.Combine(WorkingFolder, "JPG");
+
+            
+
+            switch (ComboBoxChoixModeDeplacement.SelectedItem.ToString())
             {
-                foreach (FileInfo file in files)
-                {
-                    string targetFilePath = Path.Combine(WorkingFolder, file.Name);
-                    file.MoveTo(targetFilePath);
-                }
+                case "Déplacer":
+                    if (CheckBoxSeparateFolders.Checked)
+                    {
+                        // Créer les dossiers CR2 et JPG si ils n'existent pas
+                        Directory.CreateDirectory(cr2Folder);
+                        Directory.CreateDirectory(jpgFolder);
+
+                        foreach (FileInfo fileInfo in files)
+                        {
+                            string extension = fileInfo.Extension;
+
+                            // Si l'extension est .CR2, déplacer le fichier dans le dossier CR2
+                            if (extension == ".CR2")
+                            {
+                                string targetFilePath = Path.Combine(cr2Folder, fileInfo.Name);
+                                fileInfo.MoveTo(targetFilePath);
+                            }
+
+                            // Si l'extension est .JPG, déplacer le fichier dans le dossier JPG
+                            else if (extension == ".jpg")
+                            {
+                                string targetFilePath = Path.Combine(jpgFolder, fileInfo.Name);
+                                fileInfo.MoveTo(targetFilePath);
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        foreach (FileInfo file in files)
+                        {
+                            string targetFilePath = Path.Combine(WorkingFolder, file.Name);
+                            file.MoveTo(targetFilePath);
+                        }
+                    }
+
+                    break;
+
+                case "Copier":
+
+                    if (CheckBoxSeparateFolders.Checked)
+                    {
+                        // Créer les dossiers CR2 et JPG si ils n'existent pas
+                        Directory.CreateDirectory(cr2Folder);
+                        Directory.CreateDirectory(jpgFolder);
+
+                        foreach (FileInfo fileInfo in files)
+                        {
+                            string extension = fileInfo.Extension;
+
+                            // Si l'extension est .CR2, déplacer le fichier dans le dossier CR2
+                            if (extension == ".CR2")
+                            {
+                                string targetFilePath = Path.Combine(cr2Folder, fileInfo.Name);
+                                fileInfo.CopyTo(targetFilePath);
+                            }
+
+                            // Si l'extension est .JPG, déplacer le fichier dans le dossier JPG
+                            else if (extension == ".jpg")
+                            {
+                                string targetFilePath = Path.Combine(jpgFolder, fileInfo.Name);
+                                fileInfo.CopyTo(targetFilePath);
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        foreach (FileInfo file in files)
+                        {
+                            string targetFilePath = Path.Combine(WorkingFolder, file.Name);
+                            file.CopyTo(targetFilePath);
+                        }
+                    }
+
+                    break;
+
+                case "Copier et déplacer":
+
+
+
+                    if (AdditionnalCopyFolder == "")
+                    {
+                        MessageBox.Show("Vous n'avez pas selectionné de dossier où copier vos fichiers");
+                        return;
+                    }
+
+                    string cr2FolderCopy = Path.Combine(AdditionnalCopyFolder, "CR2");
+                    string jpgFolderCopy = Path.Combine(AdditionnalCopyFolder, "JPG");
+                    if (CheckBoxSeparateFolders.Checked)
+                    {
+                        // Créer les dossiers CR2 et JPG si ils n'existent pas
+                        Directory.CreateDirectory(cr2Folder);
+                        Directory.CreateDirectory(jpgFolder);
+
+                        foreach (FileInfo fileInfo in files)
+                        {
+                            string extension = fileInfo.Extension;
+
+                            // Si l'extension est .CR2, déplacer le fichier dans le dossier CR2
+                            if (extension == ".CR2")
+                            {
+                                string targetFilePath = Path.Combine(cr2Folder, fileInfo.Name);
+                                fileInfo.MoveTo(targetFilePath);
+                                string targetCopypath = Path.Combine(cr2FolderCopy, fileInfo.Name);
+                                fileInfo.CopyTo(targetCopypath);
+                            }
+
+                            // Si l'extension est .JPG, déplacer le fichier dans le dossier JPG
+                            else if (extension == ".jpg")
+                            {
+                                string targetFilePath = Path.Combine(jpgFolder, fileInfo.Name);
+                                fileInfo.MoveTo(targetFilePath);
+                                string targetCopypath = Path.Combine(jpgFolderCopy, fileInfo.Name);
+                                fileInfo.CopyTo(targetCopypath);
+                            }
+                        }
+                    }
+
+                    foreach (FileInfo file in files)
+                    {
+                        string targetFilePath = Path.Combine(WorkingFolder, file.Name);
+                        file.MoveTo(targetFilePath);
+                        string targetCopyPath = Path.Combine(AdditionnalCopyFolder, file.Name);
+                        file.CopyTo(targetCopyPath);
+                    }
+
+                    break;
+
             }
-
-            if (ComboBoxChoixModeDeplacement.SelectedItem.ToString() == "Copier")
-            {
-                foreach (FileInfo file in files)
-                {
-                    string targetFilePath = Path.Combine(WorkingFolder, file.Name);
-                    file.CopyTo(targetFilePath);
-                }
-            }
-
-            if (ComboBoxChoixModeDeplacement.SelectedItem.ToString() == "Copier et déplacer")
-            {
-                if(AdditionnalCopyFolder == "")
-                {
-                    MessageBox.Show("Vous n'avez pas selectionné de dossier où copier vos fichiers");
-                    return;
-                }
-                foreach (FileInfo file in files)
-                {
-                    string targetFilePath = Path.Combine(WorkingFolder, file.Name);
-                    file.MoveTo(targetFilePath);
-                    string targetCopyPath = Path.Combine(AdditionnalCopyFolder, file.Name);
-                    file.CopyTo(targetCopyPath);
-                }
-            }
-
-
 
             MessageBox.Show("Le déplacement des fichiers est terminé.");
         }
