@@ -99,7 +99,7 @@ namespace PictureSorterC_
             DirectoryInfo sourceDir = new DirectoryInfo(SDFolder);
             FileInfo[] files = sourceDir.GetFiles();
 
-            string cr2Folder = Path.Combine(WorkingFolder, "CR2");
+            string cr2Folder = Path.Combine(WorkingFolder, "RAW");
             string jpgFolder = Path.Combine(WorkingFolder, "JPG");
 
 
@@ -118,7 +118,7 @@ namespace PictureSorterC_
                             string extension = fileInfo.Extension;
 
                             // Si l'extension est .CR2, déplacer le fichier dans le dossier CR2
-                            if (extension == ".CR2")
+                            if (extension == ".CR2" || extension == ".NEF")
                             {
                                 string targetFilePath = Path.Combine(cr2Folder, fileInfo.Name);
                                 fileInfo.MoveTo(targetFilePath);
@@ -157,7 +157,7 @@ namespace PictureSorterC_
                             string extension = fileInfo.Extension;
 
                             // Si l'extension est .CR2, déplacer le fichier dans le dossier CR2
-                            if (extension == ".CR2")
+                            if (extension == ".CR2" || extension == ".NEF")
                             {
                                 string targetFilePath = Path.Combine(cr2Folder, fileInfo.Name);
                                 fileInfo.CopyTo(targetFilePath);
@@ -193,20 +193,22 @@ namespace PictureSorterC_
                         return;
                     }
 
-                    string cr2FolderCopy = Path.Combine(AdditionnalCopyFolder, "CR2");
+                    string cr2FolderCopy = Path.Combine(AdditionnalCopyFolder, "RAW");
                     string jpgFolderCopy = Path.Combine(AdditionnalCopyFolder, "JPG");
                     if (CheckBoxSeparateFolders.Checked)
                     {
                         // Créer les dossiers CR2 et JPG si ils n'existent pas
                         Directory.CreateDirectory(cr2Folder);
                         Directory.CreateDirectory(jpgFolder);
+                        Directory.CreateDirectory(cr2FolderCopy);
+                        Directory.CreateDirectory(jpgFolderCopy);
 
                         foreach (FileInfo fileInfo in files)
                         {
                             string extension = fileInfo.Extension;
 
                             // Si l'extension est .CR2, déplacer le fichier dans le dossier CR2
-                            if (extension == ".CR2")
+                            if (extension == ".CR2" || extension == ".NEF")
                             {
                                 string targetFilePath = Path.Combine(cr2Folder, fileInfo.Name);
                                 fileInfo.MoveTo(targetFilePath);
@@ -224,20 +226,20 @@ namespace PictureSorterC_
                             }
                         }
                     }
-
-                    foreach (FileInfo file in files)
-                    {
-                        string targetFilePath = Path.Combine(WorkingFolder, file.Name);
-                        file.MoveTo(targetFilePath);
-                        string targetCopyPath = Path.Combine(AdditionnalCopyFolder, file.Name);
-                        file.CopyTo(targetCopyPath);
+                    else { 
+                        foreach (FileInfo file in files)
+                        {
+                            string targetFilePath = Path.Combine(WorkingFolder, file.Name);
+                            file.MoveTo(targetFilePath);
+                            string targetCopyPath = Path.Combine(AdditionnalCopyFolder, file.Name);
+                            file.CopyTo(targetCopyPath);
+                        }
                     }
-
                     break;
 
             }
             MessageBox.Show("Le déplacement des fichiers est terminé.");
-            LoadDataGridViewImages(WorkingFolder);
+            //LoadDataGridViewImages(WorkingFolder);
             
         }
 
