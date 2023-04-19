@@ -11,6 +11,9 @@ namespace PictureSorterC_
         string AdditionnalCopyFolder = "";
 
         bool DifferentsFoldersForFormats = false;
+
+        List<string> extensionsRaw;
+        List<string> extensionsImage;
         public Form1()
         {
             InitializeComponent();
@@ -18,6 +21,8 @@ namespace PictureSorterC_
             LabelPathToTargetFolder.Text = string.Empty;
             LabelPathToFolder.Text = string.Empty;
             ButtonStartImport.Enabled = false;
+            extensionsRaw = new List<string>{".NEF",".CR2",".ARW",".ORF",".RW2",".DNG"};
+            extensionsImage = new List<string> { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff" };
 
         }
 
@@ -118,14 +123,14 @@ namespace PictureSorterC_
                             string extension = fileInfo.Extension;
 
                             // Si l'extension est .CR2, déplacer le fichier dans le dossier CR2
-                            if (extension == ".CR2" || extension == ".NEF")
+                            if (extensionsRaw.Contains(extension))
                             {
                                 string targetFilePath = Path.Combine(cr2Folder, fileInfo.Name);
                                 fileInfo.MoveTo(targetFilePath);
                             }
 
                             // Si l'extension est .JPG, déplacer le fichier dans le dossier JPG
-                            else if (extension == ".jpg")
+                            else if (extensionsImage.Contains(extension))
                             {
                                 string targetFilePath = Path.Combine(jpgFolder, fileInfo.Name);
                                 fileInfo.MoveTo(targetFilePath);
@@ -157,14 +162,14 @@ namespace PictureSorterC_
                             string extension = fileInfo.Extension;
 
                             // Si l'extension est .CR2, déplacer le fichier dans le dossier CR2
-                            if (extension == ".CR2" || extension == ".NEF")
+                            if (extensionsRaw.Contains(extension))
                             {
                                 string targetFilePath = Path.Combine(cr2Folder, fileInfo.Name);
                                 fileInfo.CopyTo(targetFilePath);
                             }
 
                             // Si l'extension est .JPG, déplacer le fichier dans le dossier JPG
-                            else if (extension == ".jpg")
+                            else if (extensionsImage.Contains(extension))
                             {
                                 string targetFilePath = Path.Combine(jpgFolder, fileInfo.Name);
                                 fileInfo.CopyTo(targetFilePath);
@@ -208,7 +213,7 @@ namespace PictureSorterC_
                             string extension = fileInfo.Extension;
 
                             // Si l'extension est .CR2, déplacer le fichier dans le dossier CR2
-                            if (extension == ".CR2" || extension == ".NEF")
+                            if (extensionsRaw.Contains(extension))
                             {
                                 string targetFilePath = Path.Combine(cr2Folder, fileInfo.Name);
                                 fileInfo.MoveTo(targetFilePath);
@@ -217,7 +222,7 @@ namespace PictureSorterC_
                             }
 
                             // Si l'extension est .JPG, déplacer le fichier dans le dossier JPG
-                            else if (extension == ".jpg")
+                            else if (extensionsImage.Contains(extension))
                             {
                                 string targetFilePath = Path.Combine(jpgFolder, fileInfo.Name);
                                 fileInfo.MoveTo(targetFilePath);
@@ -235,6 +240,7 @@ namespace PictureSorterC_
                             file.CopyTo(targetCopyPath);
                         }
                     }
+
                     break;
 
             }
