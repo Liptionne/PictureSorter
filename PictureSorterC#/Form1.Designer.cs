@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             menuStrip1 = new MenuStrip();
             fichierToolStripMenuItem = new ToolStripMenuItem();
             editionToolStripMenuItem = new ToolStripMenuItem();
@@ -47,12 +48,12 @@
             LabelPathToFolder = new Label();
             LabelFolderName = new Label();
             panel2 = new Panel();
+            imageList1 = new ImageList(components);
             label1 = new Label();
-            dataGridView1 = new DataGridView();
+            listView1 = new ListView();
             menuStrip1.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
@@ -231,12 +232,19 @@
             // 
             // panel2
             // 
+            panel2.AutoScroll = true;
+            panel2.Controls.Add(listView1);
             panel2.Controls.Add(label1);
-            panel2.Controls.Add(dataGridView1);
             panel2.Location = new Point(352, 31);
             panel2.Name = "panel2";
             panel2.Size = new Size(963, 698);
             panel2.TabIndex = 2;
+            // 
+            // imageList1
+            // 
+            imageList1.ColorDepth = ColorDepth.Depth8Bit;
+            imageList1.ImageSize = new Size(16, 16);
+            imageList1.TransparentColor = Color.Transparent;
             // 
             // label1
             // 
@@ -247,18 +255,16 @@
             label1.TabIndex = 1;
             label1.Text = "Importez une image pour démarrer";
             // 
-            // dataGridView1
+            // listView1
             // 
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.BackgroundColor = SystemColors.ActiveBorder;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Enabled = false;
-            dataGridView1.Location = new Point(20, 24);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(931, 553);
-            dataGridView1.TabIndex = 0;
+            listView1.LargeImageList = imageList1;
+            listView1.Location = new Point(23, 14);
+            listView1.Name = "listView1";
+            listView1.Size = new Size(928, 670);
+            listView1.SmallImageList = imageList1;
+            listView1.StateImageList = imageList1;
+            listView1.TabIndex = 2;
+            listView1.UseCompatibleStateImageBehavior = false;
             // 
             // Form1
             // 
@@ -277,7 +283,6 @@
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -303,7 +308,8 @@
         private Label LabelFolderName;
         private Button ButtonStartImport;
         private Panel panel2;
-        private DataGridView dataGridView1;
         private Label label1;
+        private ImageList imageList1;
+        private ListView listView1;
     }
 }

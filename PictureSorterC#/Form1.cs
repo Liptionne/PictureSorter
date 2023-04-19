@@ -1,4 +1,5 @@
 using System.Net;
+using System.Runtime.ConstrainedExecution;
 using System.Windows.Forms;
 
 namespace PictureSorterC_
@@ -8,6 +9,8 @@ namespace PictureSorterC_
         string SDFolder = "";
         string WorkingFolder = "";
         string AdditionnalCopyFolder = "";
+
+        bool DifferentsFoldersForFormats = false;
         public Form1()
         {
             InitializeComponent();
@@ -15,6 +18,7 @@ namespace PictureSorterC_
             LabelPathToTargetFolder.Text = string.Empty;
             LabelPathToFolder.Text = string.Empty;
             ButtonStartImport.Enabled = false;
+
         }
 
 
@@ -35,6 +39,51 @@ namespace PictureSorterC_
             return folderPath;
         }
 
+        private Size GetImageDisplaySize(Image image, Size maxSize)
+        {
+            double widthRatio = (double)maxSize.Width / image.Width;
+            double heightRatio = (double)maxSize.Height / image.Height;
+            double ratio = Math.Min(widthRatio, heightRatio);
+
+            int displayWidth = (int)(image.Width * ratio);
+            int displayHeight = (int)(image.Height * ratio);
+
+            return new Size(displayWidth, displayHeight);
+        }
+
+        public void LoadDataGridViewImages(string folder)
+        {
+            
+            ImageList imageList = new ImageList();
+            imageList.ImageSize = new Size(100, 100);
+            listView1.View = View.LargeIcon;
+            imageList.ColorDepth = ColorDepth.Depth32Bit;
+
+            double POURCENTAGE_IMAGE = 0.03;
+
+            int maxSize = 0;
+            int maxSizeReduite = 0;
+            string[] fileNames = Directory.GetFiles(folder);
+            foreach (string fileName in fileNames)
+            {
+                Image image = Image.FromFile(fileName);
+                maxSize = Math.Max(image.Width, image.Height);
+                maxSizeReduite = Convert.ToInt32(maxSize * POURCENTAGE_IMAGE);
+                imageList.Images.Add(image.GetThumbnailImage(maxSizeReduite, maxSizeReduite, null, IntPtr.Zero));
+                image.Dispose();
+                ListViewItem item = new ListViewItem(fileName, imageList.Images.Count - 1);
+                listView1.Items.Add(item);
+            }
+            
+            imageList.ImageSize = new Size(maxSizeReduite, maxSizeReduite);
+
+            listView1.LargeImageList = imageList;
+            // Afficher les images dans le ListView
+
+
+        }
+
+       
         public void MoveFiles()
         {
             if (!Directory.Exists(SDFolder))
@@ -53,7 +102,7 @@ namespace PictureSorterC_
             string cr2Folder = Path.Combine(WorkingFolder, "CR2");
             string jpgFolder = Path.Combine(WorkingFolder, "JPG");
 
-            
+
 
             switch (ComboBoxChoixModeDeplacement.SelectedItem.ToString())
             {
@@ -187,8 +236,9 @@ namespace PictureSorterC_
                     break;
 
             }
-
             MessageBox.Show("Le déplacement des fichiers est terminé.");
+            LoadDataGridViewImages(WorkingFolder);
+            
         }
 
         private void CheckIfImportButtonIsEnabled()
