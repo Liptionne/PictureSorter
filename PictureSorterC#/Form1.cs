@@ -19,6 +19,8 @@ namespace PictureSorterC_
         public Form1()
         {
             InitializeComponent();
+            this.KeyPreview = true;
+
             LabelAdditionnalFolderPath.Text = string.Empty;
             LabelPathToTargetFolder.Text = string.Empty;
             LabelPathToFolder.Text = string.Empty;
@@ -316,11 +318,23 @@ namespace PictureSorterC_
         public void LoadImageViewer()
         {
             //Load image from targetDirectory + jpg at index .
-
+            pictureBox1.Image.Dispose();
             string[] images = Directory.GetFiles(Path.Combine(WorkingFolder, "JPG"));
             pictureBox1.Image = Image.FromFile(images[IndexOfSelectedImage]);
 
 
+        }
+
+        private void ChangeIndexOfSelectedItem(int numberToAdd)
+        {
+            int newIndex = IndexOfSelectedImage + numberToAdd;
+
+            if(newIndex < 0 || newIndex >= listView1.Items.Count)
+            {
+                return;
+            }
+            
+            IndexOfSelectedImage = newIndex;
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -328,13 +342,17 @@ namespace PictureSorterC_
             if (e.KeyCode == Keys.Right)
             {
                 //fleche de droite
-
+                ChangeIndexOfSelectedItem(1);
+                LoadImageViewer();
+                
 
             }
 
             if (e.KeyCode == Keys.Left)
             {
                 //fleche de gauche
+                ChangeIndexOfSelectedItem(-1);
+                LoadImageViewer();
             }
         }
     }
