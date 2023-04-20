@@ -29,11 +29,15 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             menuStrip1 = new MenuStrip();
             fichierToolStripMenuItem = new ToolStripMenuItem();
             editionToolStripMenuItem = new ToolStripMenuItem();
             optionsToolStripMenuItem = new ToolStripMenuItem();
+            modeGrilleToolStripMenuItem = new ToolStripMenuItem();
+            visualisationToolStripMenuItem = new ToolStripMenuItem();
             panel1 = new Panel();
+            button1 = new Button();
             ButtonStartImport = new Button();
             CheckBoxSeparateFolders = new CheckBox();
             ButtonChooseAdditionnalFolder = new Button();
@@ -48,18 +52,20 @@
             LabelPathToFolder = new Label();
             LabelFolderName = new Label();
             panel2 = new Panel();
+            pictureBox1 = new PictureBox();
+            listView1 = new ListView();
             imageList1 = new ImageList(components);
             label1 = new Label();
-            listView1 = new ListView();
             menuStrip1.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fichierToolStripMenuItem, editionToolStripMenuItem, optionsToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fichierToolStripMenuItem, editionToolStripMenuItem, optionsToolStripMenuItem, modeGrilleToolStripMenuItem, visualisationToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1315, 28);
@@ -84,8 +90,23 @@
             optionsToolStripMenuItem.Size = new Size(75, 24);
             optionsToolStripMenuItem.Text = "Options";
             // 
+            // modeGrilleToolStripMenuItem
+            // 
+            modeGrilleToolStripMenuItem.Name = "modeGrilleToolStripMenuItem";
+            modeGrilleToolStripMenuItem.Size = new Size(124, 24);
+            modeGrilleToolStripMenuItem.Text = "Grille et import";
+            modeGrilleToolStripMenuItem.Click += modeGrilleToolStripMenuItem_Click;
+            // 
+            // visualisationToolStripMenuItem
+            // 
+            visualisationToolStripMenuItem.Name = "visualisationToolStripMenuItem";
+            visualisationToolStripMenuItem.Size = new Size(106, 24);
+            visualisationToolStripMenuItem.Text = "Visualisation";
+            visualisationToolStripMenuItem.Click += visualisationToolStripMenuItem_Click;
+            // 
             // panel1
             // 
+            panel1.Controls.Add(button1);
             panel1.Controls.Add(ButtonStartImport);
             panel1.Controls.Add(CheckBoxSeparateFolders);
             panel1.Controls.Add(ButtonChooseAdditionnalFolder);
@@ -104,6 +125,15 @@
             panel1.Size = new Size(346, 698);
             panel1.TabIndex = 1;
             // 
+            // button1
+            // 
+            button1.Location = new Point(107, 632);
+            button1.Name = "button1";
+            button1.Size = new Size(177, 29);
+            button1.TabIndex = 26;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            // 
             // ButtonStartImport
             // 
             ButtonStartImport.FlatStyle = FlatStyle.Popup;
@@ -119,6 +149,8 @@
             // CheckBoxSeparateFolders
             // 
             CheckBoxSeparateFolders.AutoSize = true;
+            CheckBoxSeparateFolders.Checked = true;
+            CheckBoxSeparateFolders.CheckState = CheckState.Checked;
             CheckBoxSeparateFolders.Location = new Point(12, 292);
             CheckBoxSeparateFolders.Name = "CheckBoxSeparateFolders";
             CheckBoxSeparateFolders.Size = new Size(272, 24);
@@ -233,6 +265,8 @@
             // panel2
             // 
             panel2.AutoScroll = true;
+            panel2.BackColor = SystemColors.Control;
+            panel2.Controls.Add(pictureBox1);
             panel2.Controls.Add(listView1);
             panel2.Controls.Add(label1);
             panel2.Location = new Point(352, 31);
@@ -240,9 +274,33 @@
             panel2.Size = new Size(963, 698);
             panel2.TabIndex = 2;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = SystemColors.ScrollBar;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(23, 14);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(928, 670);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 3;
+            pictureBox1.TabStop = false;
+            pictureBox1.Visible = false;
+            // 
+            // listView1
+            // 
+            listView1.BackColor = SystemColors.ScrollBar;
+            listView1.LargeImageList = imageList1;
+            listView1.Location = new Point(23, 14);
+            listView1.Name = "listView1";
+            listView1.Size = new Size(928, 670);
+            listView1.SmallImageList = imageList1;
+            listView1.StateImageList = imageList1;
+            listView1.TabIndex = 2;
+            listView1.UseCompatibleStateImageBehavior = false;
+            // 
             // imageList1
             // 
-            imageList1.ColorDepth = ColorDepth.Depth8Bit;
+            imageList1.ColorDepth = ColorDepth.Depth32Bit;
             imageList1.ImageSize = new Size(16, 16);
             imageList1.TransparentColor = Color.Transparent;
             // 
@@ -255,17 +313,6 @@
             label1.TabIndex = 1;
             label1.Text = "Importez une image pour démarrer";
             // 
-            // listView1
-            // 
-            listView1.LargeImageList = imageList1;
-            listView1.Location = new Point(23, 14);
-            listView1.Name = "listView1";
-            listView1.Size = new Size(928, 670);
-            listView1.SmallImageList = imageList1;
-            listView1.StateImageList = imageList1;
-            listView1.TabIndex = 2;
-            listView1.UseCompatibleStateImageBehavior = false;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -277,12 +324,14 @@
             MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Form1";
+            KeyDown += Form1_KeyDown;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -311,5 +360,9 @@
         private Label label1;
         private ImageList imageList1;
         private ListView listView1;
+        private ToolStripMenuItem modeGrilleToolStripMenuItem;
+        private ToolStripMenuItem visualisationToolStripMenuItem;
+        private Button button1;
+        private PictureBox pictureBox1;
     }
 }

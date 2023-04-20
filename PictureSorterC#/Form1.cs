@@ -10,10 +10,12 @@ namespace PictureSorterC_
         string WorkingFolder = "";
         string AdditionnalCopyFolder = "";
 
-        bool DifferentsFoldersForFormats = false;
+        bool SeparateFoldersByFormat = false;
 
         List<string> extensionsRaw;
         List<string> extensionsImage;
+
+        int IndexOfSelectedImage = 0;
         public Form1()
         {
             InitializeComponent();
@@ -21,7 +23,7 @@ namespace PictureSorterC_
             LabelPathToTargetFolder.Text = string.Empty;
             LabelPathToFolder.Text = string.Empty;
             ButtonStartImport.Enabled = false;
-            extensionsRaw = new List<string>{".NEF",".CR2",".ARW",".ORF",".RW2",".DNG"};
+            extensionsRaw = new List<string> { ".NEF", ".CR2", ".ARW", ".ORF", ".RW2", ".DNG" };
             extensionsImage = new List<string> { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff" };
 
         }
@@ -58,7 +60,7 @@ namespace PictureSorterC_
 
         public void LoadDataGridViewImages(string folder)
         {
-            
+
             ImageList imageList = new ImageList();
             imageList.ImageSize = new Size(100, 100);
             listView1.View = View.LargeIcon;
@@ -79,7 +81,7 @@ namespace PictureSorterC_
                 ListViewItem item = new ListViewItem(fileName, imageList.Images.Count - 1);
                 listView1.Items.Add(item);
             }
-            
+
             imageList.ImageSize = new Size(maxSizeReduite, maxSizeReduite);
 
             listView1.LargeImageList = imageList;
@@ -88,7 +90,7 @@ namespace PictureSorterC_
 
         }
 
-       
+
         public void MoveFiles()
         {
             if (!Directory.Exists(SDFolder))
@@ -231,7 +233,8 @@ namespace PictureSorterC_
                             }
                         }
                     }
-                    else { 
+                    else
+                    {
                         foreach (FileInfo file in files)
                         {
                             string targetFilePath = Path.Combine(WorkingFolder, file.Name);
@@ -245,8 +248,8 @@ namespace PictureSorterC_
 
             }
             MessageBox.Show("Le déplacement des fichiers est terminé.");
-            //LoadDataGridViewImages(WorkingFolder);
-            
+            LoadDataGridViewImages(Path.Combine(WorkingFolder, "JPG"));
+
         }
 
         private void CheckIfImportButtonIsEnabled()
@@ -273,8 +276,6 @@ namespace PictureSorterC_
             LabelPathToTargetFolder.Text = Path.GetFileName(WorkingFolder);
 
             CheckIfImportButtonIsEnabled();
-
-
         }
 
         private void ButtonChooseAdditionnalFolder_Click(object sender, EventArgs e)
@@ -292,5 +293,63 @@ namespace PictureSorterC_
         {
             CheckIfImportButtonIsEnabled();
         }
+
+        private void visualisationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            panel1.Visible = false;
+            listView1.Visible = false;
+            pictureBox1.Visible = true;
+            if (listView1.SelectedIndices.Count > 0)
+            {
+                IndexOfSelectedImage = listView1.SelectedIndices[0];
+            }
+            LoadImageViewer();
+        }
+
+        private void modeGrilleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            panel1.Visible = true;
+            listView1.Visible = true;
+            pictureBox1.Visible = false;
+        }
+
+        public void LoadImageViewer()
+        {
+            //Load image from targetDirectory + jpg at index .
+
+            string[] images = Directory.GetFiles(Path.Combine(WorkingFolder, "JPG"));
+            pictureBox1.Image = Image.FromFile(images[IndexOfSelectedImage]);
+
+
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Right)
+            {
+                //fleche de droite
+
+
+            }
+
+            if (e.KeyCode == Keys.Left)
+            {
+                //fleche de gauche
+            }
+        }
     }
 }
+
+/*TODO Travailler l'UI et l'UX (grille des images, visualiseur d'images, infos sur l'image en visualisation)
+
+TODO Ajouter une logique de tri des images (en fonctionn de critères : ISO? ouverture, date, nom, lieu, taille, résolution)
+
+TODO Créer la méthode de suppression des RAWs
+
+TODO Ajouter des tests automatiques au projet
+
+TODO Méthode de renommage des fichiers (peut etre des REGEX ?)
+
+TODO Gestion d'erreurs
+
+*/ 
