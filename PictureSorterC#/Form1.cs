@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net;
 using System.Runtime.ConstrainedExecution;
 using System.Windows.Forms;
@@ -16,6 +17,8 @@ namespace PictureSorterC_
         List<string> extensionsImage;
 
         int IndexOfSelectedImage = 0;
+
+        List<string> ImagesToDelete;
         public Form1()
         {
             InitializeComponent();
@@ -26,8 +29,11 @@ namespace PictureSorterC_
             LabelPathToTargetFolder.Text = string.Empty;
             LabelPathToFolder.Text = string.Empty;
             ButtonStartImport.Enabled = false;
-            extensionsRaw = new List<string> { ".NEF", ".CR2", ".ARW", ".ORF", ".RW2", ".DNG" };
-            extensionsImage = new List<string> { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff" };
+
+            ImagesToDelete = new List<string>();
+
+            extensionsRaw = new List<string> { ".NEF", ".CR2", ".ARW", ".ORF", ".RW2", ".DNG", ".CR3" };
+            extensionsImage = new List<string> { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".JPG" };
 
         }
 
@@ -318,14 +324,14 @@ namespace PictureSorterC_
 
             panel1.Visible = true;
             listView1.Visible = true;
-           
+
         }
 
         public void LoadImageViewer()
         {
             //Load image from targetDirectory + jpg at index .
             pictureBox1.Image.Dispose();
-            
+
             string[] images = Directory.GetFiles(Path.Combine(WorkingFolder, "JPG"));
             pictureBox1.Image = Image.FromFile(images[IndexOfSelectedImage]);
         }
@@ -361,16 +367,47 @@ namespace PictureSorterC_
 
         private void DeleteImageButton_Click(object sender, EventArgs e)
         {
-            //supprime la photo
-            // on supprime le fichier, on supprime le string dans la liste, et on recharge le pictureviewer
             string[] images = Directory.GetFiles(Path.Combine(WorkingFolder, "JPG"));
             listView1.Items.RemoveAt(IndexOfSelectedImage);
             pictureBox1.Image.Dispose();
 
+            ImagesToDelete.Add(Path.GetFileNameWithoutExtension(images[IndexOfSelectedImage]));
+
             File.Delete(images[IndexOfSelectedImage]);
 
             LoadImageViewer();
+        }
 
+        private void DeleteRaw()
+        {
+            List<string> RAWimages = new List<string>(Directory.GetFiles(Path.Combine(WorkingFolder, "RAW")));
+            string NameRAWFile;
+            int indexJPGList;
+            int indexRAWList;
+
+            int NumberOfRaw = RAWimages.Count;
+            int NbDeleted = 0;
+            
+            for (int i = 0; i < NumberOfRaw; i++)
+            {
+                indexRAWList = i - NbDeleted;
+                NameRAWFile = Path.GetFileNameWithoutExtension(RAWimages[indexRAWList]);
+                indexJPGList = ImagesToDelete.IndexOf(NameRAWFile);
+                
+                if (indexJPGList > -1)
+                {
+                    File.Delete(RAWimages[indexRAWList]);
+                    ImagesToDelete.RemoveAt(indexJPGList);
+                    RAWimages.RemoveAt(indexRAWList);
+                    NbDeleted++;
+                }
+            }
+            MessageBox.Show("La suppression des RAWs est terminée");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DeleteRaw();
         }
     }
 }
