@@ -56,10 +56,13 @@
             listView1 = new ListView();
             imageList1 = new ImageList(components);
             label1 = new Label();
+            panel3 = new Panel();
+            DeleteImageButton = new Button();
             menuStrip1.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel3.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -120,7 +123,7 @@
             panel1.Controls.Add(ButtonChooseFolder);
             panel1.Controls.Add(LabelPathToFolder);
             panel1.Controls.Add(LabelFolderName);
-            panel1.Location = new Point(0, 31);
+            panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(346, 698);
             panel1.TabIndex = 1;
@@ -313,13 +316,32 @@
             label1.TabIndex = 1;
             label1.Text = "Importez une image pour démarrer";
             // 
+            // panel3
+            // 
+            panel3.Controls.Add(panel1);
+            panel3.Controls.Add(DeleteImageButton);
+            panel3.Location = new Point(12, 31);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(334, 684);
+            panel3.TabIndex = 3;
+            // 
+            // DeleteImageButton
+            // 
+            DeleteImageButton.Location = new Point(160, 372);
+            DeleteImageButton.Name = "DeleteImageButton";
+            DeleteImageButton.Size = new Size(158, 29);
+            DeleteImageButton.TabIndex = 0;
+            DeleteImageButton.Text = "Supprimer la photo";
+            DeleteImageButton.UseVisualStyleBackColor = true;
+            DeleteImageButton.Click += DeleteImageButton_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1315, 727);
+            Controls.Add(panel3);
             Controls.Add(panel2);
-            Controls.Add(panel1);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             Name = "Form1";
@@ -332,6 +354,7 @@
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel3.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -364,5 +387,7 @@
         private ToolStripMenuItem visualisationToolStripMenuItem;
         private Button button1;
         private PictureBox pictureBox1;
+        private Panel panel3;
+        private Button DeleteImageButton;
     }
 }

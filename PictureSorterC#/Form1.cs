@@ -19,6 +19,7 @@ namespace PictureSorterC_
         public Form1()
         {
             InitializeComponent();
+
             this.KeyPreview = true;
 
             LabelAdditionnalFolderPath.Text = string.Empty;
@@ -121,6 +122,8 @@ namespace PictureSorterC_
                         // Créer les dossiers CR2 et JPG si ils n'existent pas
                         Directory.CreateDirectory(cr2Folder);
                         Directory.CreateDirectory(jpgFolder);
+
+                        SeparateFoldersByFormat = true;
 
                         foreach (FileInfo fileInfo in files)
                         {
@@ -298,9 +301,10 @@ namespace PictureSorterC_
 
         private void visualisationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            panel1.Visible = false;
             listView1.Visible = false;
             pictureBox1.Visible = true;
+            panel1.Visible = false;
+            panel3.Visible = true;
             if (listView1.SelectedIndices.Count > 0)
             {
                 IndexOfSelectedImage = listView1.SelectedIndices[0];
@@ -310,30 +314,31 @@ namespace PictureSorterC_
 
         private void modeGrilleToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            pictureBox1.Visible = false;
+
             panel1.Visible = true;
             listView1.Visible = true;
-            pictureBox1.Visible = false;
+           
         }
 
         public void LoadImageViewer()
         {
             //Load image from targetDirectory + jpg at index .
             pictureBox1.Image.Dispose();
+            
             string[] images = Directory.GetFiles(Path.Combine(WorkingFolder, "JPG"));
             pictureBox1.Image = Image.FromFile(images[IndexOfSelectedImage]);
-
-
         }
 
         private void ChangeIndexOfSelectedItem(int numberToAdd)
         {
             int newIndex = IndexOfSelectedImage + numberToAdd;
 
-            if(newIndex < 0 || newIndex >= listView1.Items.Count)
+            if (newIndex < 0 || newIndex >= listView1.Items.Count)
             {
                 return;
             }
-            
+
             IndexOfSelectedImage = newIndex;
         }
 
@@ -344,8 +349,6 @@ namespace PictureSorterC_
                 //fleche de droite
                 ChangeIndexOfSelectedItem(1);
                 LoadImageViewer();
-                
-
             }
 
             if (e.KeyCode == Keys.Left)
@@ -355,10 +358,26 @@ namespace PictureSorterC_
                 LoadImageViewer();
             }
         }
+
+        private void DeleteImageButton_Click(object sender, EventArgs e)
+        {
+            //supprime la photo
+            // on supprime le fichier, on supprime le string dans la liste, et on recharge le pictureviewer
+            string[] images = Directory.GetFiles(Path.Combine(WorkingFolder, "JPG"));
+            listView1.Items.RemoveAt(IndexOfSelectedImage);
+            pictureBox1.Image.Dispose();
+
+            File.Delete(images[IndexOfSelectedImage]);
+
+            LoadImageViewer();
+
+        }
     }
 }
 
-/*TODO Travailler l'UI et l'UX (grille des images, visualiseur d'images, infos sur l'image en visualisation)
+/*
+
+TODO Travailler l'UI et l'UX (grille des images, visualiseur d'images, infos sur l'image en visualisation)
 
 TODO Ajouter une logique de tri des images (en fonctionn de critères : ISO? ouverture, date, nom, lieu, taille, résolution)
 
