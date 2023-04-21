@@ -349,6 +349,20 @@ namespace PictureSorterC_
             LabelPictureSizeInPixel.Text += pictureBox1.Image.Width + "x" + pictureBox1.Image.Height;
 
             LabelPictureISO.Text += BitConverter.ToUInt16(pictureBox1.Image.GetPropertyItem(0x8827).Value, 0).ToString();
+
+            byte[] spencoded = pictureBox1.Image.GetPropertyItem(0x829A).Value;
+            int numerator = BitConverter.ToInt32(spencoded, 0);
+            int denominator = BitConverter.ToInt32(spencoded, 4);
+            LabelPictureShutterSpeed.Text += numerator + "/" + denominator;
+
+            var apperture = pictureBox1.Image.GetPropertyItem(0x829D).Value;
+            float numerator2 = BitConverter.ToInt32(apperture, 0);
+            float denominator2 = BitConverter.ToInt32(apperture, 4);
+            LabelPictureAperture.Text += "f/" + numerator2 / denominator2;
+
+            var lensLenght = pictureBox1.Image.GetPropertyItem(0x920A).Value;
+            float numerator3 = BitConverter.ToInt32(lensLenght, 0);
+            LabelPictureLensLenght.Text += numerator3 + "mm";
         }
 
         private void ChangeIndexOfSelectedItem(int numberToAdd)
@@ -402,13 +416,13 @@ namespace PictureSorterC_
 
             int NumberOfRaw = RAWimages.Count;
             int NbDeleted = 0;
-            
+
             for (int i = 0; i < NumberOfRaw; i++)
             {
                 indexRAWList = i - NbDeleted;
                 NameRAWFile = Path.GetFileNameWithoutExtension(RAWimages[indexRAWList]);
                 indexJPGList = ImagesToDelete.IndexOf(NameRAWFile);
-                
+
                 if (indexJPGList > -1)
                 {
                     File.Delete(RAWimages[indexRAWList]);

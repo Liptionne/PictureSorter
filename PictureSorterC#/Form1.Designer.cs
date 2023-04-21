@@ -57,7 +57,7 @@
             imageList1 = new ImageList(components);
             label1 = new Label();
             panel3 = new Panel();
-            LapelPictureLensLenght = new Label();
+            LabelPictureLensLenght = new Label();
             LabelPictureAperture = new Label();
             LabelPictureShutterSpeed = new Label();
             LabelPictureISO = new Label();
@@ -329,7 +329,7 @@
             // panel3
             // 
             panel3.Controls.Add(panel1);
-            panel3.Controls.Add(LapelPictureLensLenght);
+            panel3.Controls.Add(LabelPictureLensLenght);
             panel3.Controls.Add(LabelPictureAperture);
             panel3.Controls.Add(LabelPictureShutterSpeed);
             panel3.Controls.Add(LabelPictureISO);
@@ -344,14 +344,14 @@
             panel3.Size = new Size(334, 684);
             panel3.TabIndex = 3;
             // 
-            // LapelPictureLensLenght
+            // LabelPictureLensLenght
             // 
-            LapelPictureLensLenght.AutoSize = true;
-            LapelPictureLensLenght.Location = new Point(44, 410);
-            LapelPictureLensLenght.Name = "LapelPictureLensLenght";
-            LapelPictureLensLenght.Size = new Size(127, 20);
-            LapelPictureLensLenght.TabIndex = 9;
-            LapelPictureLensLenght.Text = "Longueur focale : ";
+            LabelPictureLensLenght.AutoSize = true;
+            LabelPictureLensLenght.Location = new Point(44, 410);
+            LabelPictureLensLenght.Name = "LabelPictureLensLenght";
+            LabelPictureLensLenght.Size = new Size(127, 20);
+            LabelPictureLensLenght.TabIndex = 9;
+            LabelPictureLensLenght.Text = "Longueur focale : ";
             // 
             // LabelPictureAperture
             // 
@@ -491,7 +491,7 @@
         private PictureBox pictureBox1;
         private Panel panel3;
         private Button DeleteImageButton;
-        private Label LapelPictureLensLenght;
+        private Label LabelPictureLensLenght;
         private Label LabelPictureAperture;
         private Label LabelPictureShutterSpeed;
         private Label LabelPictureISO;
