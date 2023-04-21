@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Drawing.Imaging;
 using System.Net;
 using System.Runtime.ConstrainedExecution;
 using System.Windows.Forms;
@@ -331,9 +332,23 @@ namespace PictureSorterC_
         {
             //Load image from targetDirectory + jpg at index .
             pictureBox1.Image.Dispose();
+            string filename = Directory.GetFiles(Path.Combine(WorkingFolder, "JPG"))[IndexOfSelectedImage];
+            pictureBox1.Image = Image.FromFile(filename);
+            PropertyItem[] property = pictureBox1.Image.PropertyItems;
+            LabelPictureName.Text += Path.GetFileNameWithoutExtension(filename);
 
-            string[] images = Directory.GetFiles(Path.Combine(WorkingFolder, "JPG"));
-            pictureBox1.Image = Image.FromFile(images[IndexOfSelectedImage]);
+
+            const int DATE_TAKEN_TAG = 0x9003;
+            var propItem = pictureBox1.Image.GetPropertyItem(DATE_TAKEN_TAG);
+
+            var dateValue = System.Text.Encoding.ASCII.GetString(propItem.Value).TrimEnd('\0');
+            var dateTaken = DateTime.ParseExact(dateValue, "yyyy:MM:dd HH:mm:ss", null);
+            var dateTakenFr = dateTaken.ToString("dd/MM/yyyy HH:mm:ss");
+            LabelPictureDate.Text += dateTakenFr;
+
+            LabelPictureSizeInPixel.Text += pictureBox1.Image.Width + "x" + pictureBox1.Image.Height;
+
+            LabelPictureISO.Text += BitConverter.ToUInt16(pictureBox1.Image.GetPropertyItem(0x8827).Value, 0).ToString();
         }
 
         private void ChangeIndexOfSelectedItem(int numberToAdd)

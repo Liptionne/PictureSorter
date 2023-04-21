@@ -57,6 +57,15 @@
             imageList1 = new ImageList(components);
             label1 = new Label();
             panel3 = new Panel();
+            LapelPictureLensLenght = new Label();
+            LabelPictureAperture = new Label();
+            LabelPictureShutterSpeed = new Label();
+            LabelPictureISO = new Label();
+            LabelPictureSizeInMBytes = new Label();
+            LabelPictureSizeInPixel = new Label();
+            LabelPictureDate = new Label();
+            LabelPictureName = new Label();
+            DeleteRAWsButton = new Button();
             DeleteImageButton = new Button();
             menuStrip1.SuspendLayout();
             panel1.SuspendLayout();
@@ -134,7 +143,7 @@
             button1.Name = "button1";
             button1.Size = new Size(177, 29);
             button1.TabIndex = 26;
-            button1.Text = "button1";
+            button1.Text = "Supprimer les RAWs";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -320,15 +329,106 @@
             // panel3
             // 
             panel3.Controls.Add(panel1);
+            panel3.Controls.Add(LapelPictureLensLenght);
+            panel3.Controls.Add(LabelPictureAperture);
+            panel3.Controls.Add(LabelPictureShutterSpeed);
+            panel3.Controls.Add(LabelPictureISO);
+            panel3.Controls.Add(LabelPictureSizeInMBytes);
+            panel3.Controls.Add(LabelPictureSizeInPixel);
+            panel3.Controls.Add(LabelPictureDate);
+            panel3.Controls.Add(LabelPictureName);
+            panel3.Controls.Add(DeleteRAWsButton);
             panel3.Controls.Add(DeleteImageButton);
             panel3.Location = new Point(12, 31);
             panel3.Name = "panel3";
             panel3.Size = new Size(334, 684);
             panel3.TabIndex = 3;
             // 
+            // LapelPictureLensLenght
+            // 
+            LapelPictureLensLenght.AutoSize = true;
+            LapelPictureLensLenght.Location = new Point(44, 410);
+            LapelPictureLensLenght.Name = "LapelPictureLensLenght";
+            LapelPictureLensLenght.Size = new Size(127, 20);
+            LapelPictureLensLenght.TabIndex = 9;
+            LapelPictureLensLenght.Text = "Longueur focale : ";
+            // 
+            // LabelPictureAperture
+            // 
+            LabelPictureAperture.AutoSize = true;
+            LabelPictureAperture.Location = new Point(47, 365);
+            LabelPictureAperture.Name = "LabelPictureAperture";
+            LabelPictureAperture.Size = new Size(85, 20);
+            LabelPictureAperture.TabIndex = 8;
+            LabelPictureAperture.Text = "Ouverture : ";
+            // 
+            // LabelPictureShutterSpeed
+            // 
+            LabelPictureShutterSpeed.AutoSize = true;
+            LabelPictureShutterSpeed.Location = new Point(41, 302);
+            LabelPictureShutterSpeed.Name = "LabelPictureShutterSpeed";
+            LabelPictureShutterSpeed.Size = new Size(148, 20);
+            LabelPictureShutterSpeed.TabIndex = 7;
+            LabelPictureShutterSpeed.Text = "Temps d'exposition : ";
+            // 
+            // LabelPictureISO
+            // 
+            LabelPictureISO.AutoSize = true;
+            LabelPictureISO.Location = new Point(37, 250);
+            LabelPictureISO.Name = "LabelPictureISO";
+            LabelPictureISO.Size = new Size(43, 20);
+            LabelPictureISO.TabIndex = 6;
+            LabelPictureISO.Text = "ISO : ";
+            // 
+            // LabelPictureSizeInMBytes
+            // 
+            LabelPictureSizeInMBytes.AutoSize = true;
+            LabelPictureSizeInMBytes.Location = new Point(35, 193);
+            LabelPictureSizeInMBytes.Name = "LabelPictureSizeInMBytes";
+            LabelPictureSizeInMBytes.Size = new Size(54, 20);
+            LabelPictureSizeInMBytes.TabIndex = 5;
+            LabelPictureSizeInMBytes.Text = "Taille : ";
+            // 
+            // LabelPictureSizeInPixel
+            // 
+            LabelPictureSizeInPixel.AutoSize = true;
+            LabelPictureSizeInPixel.Location = new Point(39, 145);
+            LabelPictureSizeInPixel.Name = "LabelPictureSizeInPixel";
+            LabelPictureSizeInPixel.Size = new Size(67, 20);
+            LabelPictureSizeInPixel.TabIndex = 4;
+            LabelPictureSizeInPixel.Text = "Format : ";
+            // 
+            // LabelPictureDate
+            // 
+            LabelPictureDate.AutoSize = true;
+            LabelPictureDate.Location = new Point(39, 93);
+            LabelPictureDate.Name = "LabelPictureDate";
+            LabelPictureDate.Size = new Size(157, 20);
+            LabelPictureDate.TabIndex = 3;
+            LabelPictureDate.Text = "Date de prise de vue : ";
+            // 
+            // LabelPictureName
+            // 
+            LabelPictureName.AutoSize = true;
+            LabelPictureName.Location = new Point(36, 45);
+            LabelPictureName.Name = "LabelPictureName";
+            LabelPictureName.Size = new Size(119, 20);
+            LabelPictureName.TabIndex = 2;
+            LabelPictureName.Text = "Nom du fichier : ";
+            LabelPictureName.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // DeleteRAWsButton
+            // 
+            DeleteRAWsButton.Location = new Point(79, 629);
+            DeleteRAWsButton.Name = "DeleteRAWsButton";
+            DeleteRAWsButton.Size = new Size(158, 29);
+            DeleteRAWsButton.TabIndex = 1;
+            DeleteRAWsButton.Text = "Supprimer les RAWs";
+            DeleteRAWsButton.UseVisualStyleBackColor = true;
+            // 
             // DeleteImageButton
             // 
-            DeleteImageButton.Location = new Point(160, 372);
+            DeleteImageButton.Location = new Point(79, 578);
             DeleteImageButton.Name = "DeleteImageButton";
             DeleteImageButton.Size = new Size(158, 29);
             DeleteImageButton.TabIndex = 0;
@@ -356,6 +456,7 @@
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -390,5 +491,14 @@
         private PictureBox pictureBox1;
         private Panel panel3;
         private Button DeleteImageButton;
+        private Label LapelPictureLensLenght;
+        private Label LabelPictureAperture;
+        private Label LabelPictureShutterSpeed;
+        private Label LabelPictureISO;
+        private Label LabelPictureSizeInMBytes;
+        private Label LabelPictureSizeInPixel;
+        private Label LabelPictureDate;
+        private Label LabelPictureName;
+        private Button DeleteRAWsButton;
     }
 }
