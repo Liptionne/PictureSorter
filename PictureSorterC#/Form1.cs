@@ -334,8 +334,10 @@ namespace PictureSorterC_
             pictureBox1.Image.Dispose();
             string filename = Directory.GetFiles(Path.Combine(WorkingFolder, "JPG"))[IndexOfSelectedImage];
             pictureBox1.Image = Image.FromFile(filename);
+            
+
             PropertyItem[] property = pictureBox1.Image.PropertyItems;
-            LabelPictureName.Text += Path.GetFileNameWithoutExtension(filename);
+            LabelPictureName.Text = "Name : " + Path.GetFileNameWithoutExtension(filename);
 
 
             const int DATE_TAKEN_TAG = 0x9003;
@@ -344,32 +346,31 @@ namespace PictureSorterC_
             var dateValue = System.Text.Encoding.ASCII.GetString(propItem.Value).TrimEnd('\0');
             var dateTaken = DateTime.ParseExact(dateValue, "yyyy:MM:dd HH:mm:ss", null);
             var dateTakenFr = dateTaken.ToString("dd/MM/yyyy HH:mm:ss");
-            LabelPictureDate.Text += dateTakenFr;
+            LabelPictureDate.Text = "Date de prise de vue : " + dateTakenFr;
 
-            LabelPictureSizeInPixel.Text += pictureBox1.Image.Width + "x" + pictureBox1.Image.Height;
+            LabelPictureSizeInPixel.Text = "Résolution : " + pictureBox1.Image.Width + "x" + pictureBox1.Image.Height;
 
-            LabelPictureISO.Text += BitConverter.ToUInt16(pictureBox1.Image.GetPropertyItem(0x8827).Value, 0).ToString();
+            LabelPictureISO.Text = "Taille (MOctets) : " + BitConverter.ToUInt16(pictureBox1.Image.GetPropertyItem(0x8827).Value, 0).ToString();
 
             byte[] spencoded = pictureBox1.Image.GetPropertyItem(0x829A).Value;
             int numerator = BitConverter.ToInt32(spencoded, 0);
             int denominator = BitConverter.ToInt32(spencoded, 4);
-            LabelPictureShutterSpeed.Text += numerator + "/" + denominator;
+            LabelPictureShutterSpeed.Text = "Temps d'ouverture : " + numerator + "/" + denominator;
 
             var apperture = pictureBox1.Image.GetPropertyItem(0x829D).Value;
             float numerator2 = BitConverter.ToInt32(apperture, 0);
             float denominator2 = BitConverter.ToInt32(apperture, 4);
-            LabelPictureAperture.Text += "f/" + numerator2 / denominator2;
+            LabelPictureAperture.Text = "Ouverture : f/" + numerator2 / denominator2;
 
             var lensLenght = pictureBox1.Image.GetPropertyItem(0x920A).Value;
             float numerator3 = BitConverter.ToInt32(lensLenght, 0);
-            LabelPictureLensLenght.Text += numerator3 + "mm";
+            LabelPictureLensLenght.Text = "Longueur focale : " + numerator3 + "mm";
         }
 
         private void ChangeIndexOfSelectedItem(int numberToAdd)
         {
             int newIndex = IndexOfSelectedImage + numberToAdd;
-
-            if (newIndex < 0 || newIndex >= listView1.Items.Count)
+            if (newIndex < 0 || newIndex >= Directory.GetFiles(Path.Combine(WorkingFolder, "JPG")).Length)
             {
                 return;
             }
@@ -446,8 +447,6 @@ namespace PictureSorterC_
 TODO Travailler l'UI et l'UX (grille des images, visualiseur d'images, infos sur l'image en visualisation)
 
 TODO Ajouter une logique de tri des images (en fonctionn de critères : ISO? ouverture, date, nom, lieu, taille, résolution)
-
-TODO Créer la méthode de suppression des RAWs
 
 TODO Ajouter des tests automatiques au projet
 
