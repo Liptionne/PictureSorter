@@ -4,10 +4,13 @@
     <Compile Update="Backend.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Form1.cs">
+    <Compile Update="EventsAndGUI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="FileManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Synchronisation.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

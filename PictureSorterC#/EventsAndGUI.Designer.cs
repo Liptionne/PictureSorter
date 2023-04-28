@@ -132,7 +132,7 @@
             panel1.Controls.Add(ButtonChooseFolder);
             panel1.Controls.Add(LabelPathToFolder);
             panel1.Controls.Add(LabelFolderName);
-            panel1.Location = new Point(0, 0);
+            panel1.Location = new Point(12, 31);
             panel1.Name = "panel1";
             panel1.Size = new Size(346, 698);
             panel1.TabIndex = 1;
@@ -143,6 +143,7 @@
             button1.Name = "button1";
             button1.Size = new Size(177, 29);
             button1.TabIndex = 26;
+            button1.TabStop = false;
             button1.Text = "Supprimer les RAWs";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
@@ -302,11 +303,9 @@
             // listView1
             // 
             listView1.BackColor = SystemColors.ScrollBar;
-            listView1.LargeImageList = imageList1;
             listView1.Location = new Point(23, 14);
             listView1.Name = "listView1";
             listView1.Size = new Size(928, 670);
-            listView1.SmallImageList = imageList1;
             listView1.StateImageList = imageList1;
             listView1.TabIndex = 2;
             listView1.UseCompatibleStateImageBehavior = false;
@@ -328,7 +327,6 @@
             // 
             // panel3
             // 
-            panel3.Controls.Add(panel1);
             panel3.Controls.Add(LabelPictureLensLenght);
             panel3.Controls.Add(LabelPictureAperture);
             panel3.Controls.Add(LabelPictureShutterSpeed);
@@ -423,6 +421,7 @@
             DeleteRAWsButton.Name = "DeleteRAWsButton";
             DeleteRAWsButton.Size = new Size(158, 29);
             DeleteRAWsButton.TabIndex = 1;
+            DeleteRAWsButton.TabStop = false;
             DeleteRAWsButton.Text = "Supprimer les RAWs";
             DeleteRAWsButton.UseVisualStyleBackColor = true;
             // 
@@ -432,6 +431,7 @@
             DeleteImageButton.Name = "DeleteImageButton";
             DeleteImageButton.Size = new Size(158, 29);
             DeleteImageButton.TabIndex = 0;
+            DeleteImageButton.TabStop = false;
             DeleteImageButton.Text = "Supprimer la photo";
             DeleteImageButton.UseVisualStyleBackColor = true;
             DeleteImageButton.Click += DeleteImageButton_Click;
@@ -441,13 +441,13 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1315, 727);
+            Controls.Add(panel1);
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Form1";
-            KeyDown += Form1_KeyDown;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             panel1.ResumeLayout(false);

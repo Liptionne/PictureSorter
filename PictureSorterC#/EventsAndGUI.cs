@@ -4,6 +4,7 @@ using System.Net;
 using System.Runtime.ConstrainedExecution;
 using System.Windows.Forms;
 
+
 namespace PictureSorterC_
 {
     public partial class Form1 : Form
@@ -18,11 +19,15 @@ namespace PictureSorterC_
         int IndexOfSelectedImage = 0;
 
         List<string> ImagesToDelete;
+
+        const int INCREASE_INDEX_VALUE = 1;
+        const int DECREASE_INDEX_VALUE = -1;
         public Form1()
         {
             InitializeComponent();
 
             this.KeyPreview = true;
+            this.Focus();
 
             LabelAdditionnalFolderPath.Text = string.Empty;
             LabelPathToTargetFolder.Text = string.Empty;
@@ -35,29 +40,7 @@ namespace PictureSorterC_
             extensionsImage = new List<string> { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".JPG" };
 
         }
-
-
-        public string SelectFolderWithFileDialog()
-        {
-            string folderPath = "";
-
-            using (var folderBrowserDialog = new FolderBrowserDialog())
-            {
-                DialogResult result = folderBrowserDialog.ShowDialog();
-
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
-                {
-                    folderPath = folderBrowserDialog.SelectedPath;
-                }
-            }
-
-            return folderPath;
-        }
-              
-       
-
-
-
+        
         private void ButtonChooseFolder_Click(object sender, EventArgs e)
         {
             SDFolder = SelectFolderWithFileDialog();
@@ -100,7 +83,7 @@ namespace PictureSorterC_
             {
                 IndexOfSelectedImage = listView1.SelectedIndices[0];
             }
-            LoadImageViewer();
+            LoadImageViewer(WorkingFolder);
         }
 
         private void modeGrilleToolStripMenuItem_Click(object sender, EventArgs e)
@@ -110,31 +93,33 @@ namespace PictureSorterC_
             panel1.Visible = true;
             listView1.Visible = true;
 
-        }        
-
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (e.KeyCode == Keys.Right)
+            
+            if(keyData == Keys.Left)
             {
-                //fleche de droite
-                ChangeIndexOfSelectedItem(1);
-                LoadImageViewer();
+                ChangeIndexOfSelectedItem(DECREASE_INDEX_VALUE);
+                LoadImageViewer(WorkingFolder);
+                return true;
+            }
+            if(keyData == Keys.Right)
+            {
+                ChangeIndexOfSelectedItem(INCREASE_INDEX_VALUE);
+                LoadImageViewer(WorkingFolder);
+                return true;
             }
 
-            if (e.KeyCode == Keys.Left)
-            {
-                //fleche de gauche
-                ChangeIndexOfSelectedItem(-1);
-                LoadImageViewer();
-            }
+            // Sinon, nous appelons la méthode ProcessCmdKey de la classe de base pour traiter les autres touches
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         private void DeleteImageButton_Click(object sender, EventArgs e)
         {
             DeleteImageAtIndex(IndexOfSelectedImage);
 
-            LoadImageViewer();
-        }       
+            LoadImageViewer(WorkingFolder);
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
