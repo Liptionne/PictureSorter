@@ -18,60 +18,84 @@ namespace PictureSorterC_
             imageList.ImageSize = new Size(180, 180);
             listView1.View = View.LargeIcon;
             imageList.ColorDepth = ColorDepth.Depth32Bit;
-          
+
             int maxSize = 180;
             string[] fileNames = Directory.GetFiles(folder);
-            foreach (string fileName in fileNames)
+
+            int threadCount = 0;
+
+            for (int ite = 0; ite < fileNames.Length; ite++)
             {
-               
-                Image image = Image.FromFile(fileName);
+                int currentIndex = ite; // stocker la valeur de "ite" dans une variable locale
 
-                if (image.PropertyIdList.Contains(0x0112)) // 0x0112 est l'identifiant de la propriété Orientation
+                Interlocked.Increment(ref threadCount);
+
+                ThreadPool.QueueUserWorkItem(state =>
                 {
-                    int orientation = (int)image.GetPropertyItem(0x0112).Value[0];
-                    Debug.WriteLine("orientation = " + orientation);
-                    if (orientation == 6) // Si l'orientation est 6, l'image doit être pivotée de 90 degrés dans le sens horaire
-                    {
-                        image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                    }
-                    if (orientation == 8) // Si l'orientation est 6, l'image doit être pivotée de 90 degrés dans le sens horaire
-                    {
-                        image.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                    }
-                }
+                    ProcessImageFile(fileNames[currentIndex], imageList, maxSize);
 
-                // Calculate new size based on maximum allowed size
-                var ratioX = (double)maxSize / image.Width;
-                var ratioY = (double)maxSize / image.Height;
-                var ratio = Math.Min(ratioX, ratioY);
-                var newWidth = (int)(image.Width * ratio);
-                var newHeight = (int)(image.Height * ratio);
+                    Interlocked.Decrement(ref threadCount);
+                });
 
-                // Create a new bitmap of the desired size
-                var newImage = new Bitmap(maxSize, maxSize, PixelFormat.Format32bppArgb);
-
-                // Draw the resized image onto the new bitmap with padding to fill any empty space
-                using (var graphics = Graphics.FromImage(newImage))
-                {
-                    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    graphics.Clear(Color.Transparent);
-                    graphics.DrawImage(image, (maxSize - newWidth) / 2, (maxSize - newHeight) / 2, newWidth, newHeight);
-                }
-
-                image.Dispose();
-                imageList.Images.Add(newImage);
-
-
-
-                ListViewItem item = new ListViewItem(fileName, imageList.Images.Count-1);
+                ListViewItem item = new ListViewItem(fileNames[currentIndex], currentIndex);
                 listView1.Items.Add(item);
-                
+            }
 
+            // Wait for all threads to finish
+            while (threadCount > 0)
+            {
+                Application.DoEvents();
+            }
+
+            /*foreach (string fileName in fileNames)
+            {
                 
             }
 
+            listView1.Refresh();*/
             listView1.LargeImageList = imageList;
 
+        }
+
+        private void ProcessImageFile(string fileName, ImageList imageList, int maxSize)
+        {
+            Image image = Image.FromFile(fileName);
+
+            if (image.PropertyIdList.Contains(0x0112))
+            {
+                int orientation = (int)image.GetPropertyItem(0x0112).Value[0];
+                if (orientation == 6)
+                {
+                    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                }
+                if (orientation == 8)
+                {
+                    image.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                }
+            }
+
+            var ratioX = (double)maxSize / image.Width;
+            var ratioY = (double)maxSize / image.Height;
+            var ratio = Math.Min(ratioX, ratioY);
+            var newWidth = (int)(image.Width * ratio);
+            var newHeight = (int)(image.Height * ratio);
+
+            var newImage = new Bitmap(maxSize, maxSize, PixelFormat.Format32bppArgb);
+
+            using (var graphics = Graphics.FromImage(newImage))
+            {
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.Clear(Color.Transparent);
+                graphics.DrawImage(image, (maxSize - newWidth) / 2, (maxSize - newHeight) / 2, newWidth, newHeight);
+            }
+
+            image.Dispose();
+
+            lock (imageList)
+            {
+                imageList.Images.Add(newImage);
+            }
+            
         }
 
         private void CheckIfImportButtonIsEnabled()
