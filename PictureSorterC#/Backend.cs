@@ -26,9 +26,18 @@ namespace PictureSorterC_
                
                 Image image = Image.FromFile(fileName);
 
-                if (image.Width < image.Height)
+                if (image.PropertyIdList.Contains(0x0112)) // 0x0112 est l'identifiant de la propriété Orientation
                 {
-                    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    int orientation = (int)image.GetPropertyItem(0x0112).Value[0];
+                    Debug.WriteLine("orientation = " + orientation);
+                    if (orientation == 6) // Si l'orientation est 6, l'image doit être pivotée de 90 degrés dans le sens horaire
+                    {
+                        image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    }
+                    if (orientation == 8) // Si l'orientation est 6, l'image doit être pivotée de 90 degrés dans le sens horaire
+                    {
+                        image.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    }
                 }
 
                 // Calculate new size based on maximum allowed size
